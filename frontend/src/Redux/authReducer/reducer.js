@@ -13,10 +13,10 @@ import {
 
 const initialState = {
   isLoading: false,
-  token: getItemLS("token") || "",
-  isAuth: getItemLS("auth") || false,
+  token: getItemLS("auth")?.token || "",
+  isAuth: getItemLS("auth")?.isAuth || false,
   message: "",
-  username: "",
+  username: getItemLS("auth")?.username || "",
   isError: false,
 };
 
@@ -29,14 +29,18 @@ export const reducer = (state = initialState, { type, payload }) => {
       if (!payload?.accessToken) {
         return { ...state, isLoading: false, message: payload?.message };
       } else {
-        setItemLS("token", payload?.accessToken);
-        setItemLS("auth", true);
+        let user = {
+          token: payload?.accessToken,
+          isAuth: true,
+          username: payload?.username,
+        };
+        setItemLS("auth", user);
         return {
           ...state,
           isLoading: false,
-          token: getItemLS("token"),
-          isAuth: getItemLS("auth"),
-          username: payload?.username,
+          token: getItemLS("auth")?.token,
+          isAuth: getItemLS("auth")?.isAuth,
+          username: getItemLS("auth")?.username,
           message: payload?.message,
           regMsg: "",
         };
@@ -45,8 +49,8 @@ export const reducer = (state = initialState, { type, payload }) => {
     case LOGIN_FAILURE: {
       return { ...state, isLoading: false, isError: true };
     }
-    case SIGNUP_SUCCESS:{
-      return {...state, isLoading: false, regMsg: payload}
+    case SIGNUP_SUCCESS: {
+      return { ...state, isLoading: false, regMsg: payload };
     }
     case LOGOUT_SUCCESS: {
       deleteItemLS("token");

@@ -12,10 +12,7 @@ import {
 //GET Notes
 export const getNotesAction = () => (dispatch) => {
   dispatch({ type: NOTES_REQUEST });
-  const token = getItemLS("token") || "";
-  const auth = getItemLS("auth");
-  console.log("getAction-token: ", token);
-  console.log("getAction-auth: ", auth);
+  const token = getItemLS("auth")?.token || "";
 
   axios("https://notesbackend-5ryo.onrender.com/notes", {
     method: "GET",
@@ -24,6 +21,7 @@ export const getNotesAction = () => (dispatch) => {
     },
   })
     .then((res) => {
+      console.log(res);
       if (!res.data) {
         dispatch({ type: NOTES_SUCCESS, payload: [] });
       } else {
@@ -39,7 +37,7 @@ export const getNotesAction = () => (dispatch) => {
 //POST Notes
 export const addNotesAction = (note) => (dispatch) => {
   dispatch({ type: NOTES_REQUEST });
-  const token = getItemLS("token") || "";
+  const token = getItemLS("auth")?.token || "";
   return axios
     .post("https://notesbackend-5ryo.onrender.com/notes/create", note, {
       headers: {
@@ -59,7 +57,7 @@ export const addNotesAction = (note) => (dispatch) => {
 //PATCH Notes
 export const upateNotesAction = (note) => (dispatch) => {
   dispatch({ type: NOTES_REQUEST });
-  const token = getItemLS("token") || "";
+  const token = getItemLS("auth")?.token || "";
   return axios
     .patch(
       `https://notesbackend-5ryo.onrender.com/notes/update/${note?._id}`,
@@ -84,7 +82,7 @@ export const upateNotesAction = (note) => (dispatch) => {
 //DELETE Notes
 export const deleteNoteAction = (id) => (dispatch) => {
   dispatch({ type: NOTES_REQUEST });
-  const token = getItemLS("token") || "";
+  const token = getItemLS("auth")?.token || "";
   return axios(`https://notesbackend-5ryo.onrender.com/notes/delete/${id}`, {
     method: "DELETE",
     headers: {

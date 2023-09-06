@@ -1,23 +1,34 @@
-import { Button, HStack, Heading, Image, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  HStack,
+  Heading,
+  Image,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import React from "react";
+import { FaClipboardList, FaFeather, FaNeos } from "react-icons/fa";
 
-const Card = ({ item, handleDeleteBTN,handleEditBTN }) => {
+const Card = ({ item, handleDeleteBTN, handleEditBTN }) => {
+  const handleDelete = () => {
+    handleDeleteBTN(item?._id);
+  };
 
-    const handleDelete = ()=>{
-        handleDeleteBTN(item?._id)
-    }
-
-    const handleEdit = ()=>{
-      handleEditBTN(item)
-    }
-
+  const handleEdit = () => {
+    handleEditBTN(item);
+  };
 
   return (
-    <HStack spacing={"30px"} alignItems={"flex-start"} margin={"20px"}>
-      <Image width={"300px"} borderRadius={"20px"} src="https://img.freepik.com/free-vector/storyboard-concept-with-smartphone-coffee_23-2148701189.jpg?size=626&ext=jpg&ga=GA1.2.1257944628.1683352118&semt=country_rows_v2" />
-      <VStack width={"full"}  alignItems={"flex-start"}>
-        <Heading size={"lg"} color={"white"}>{item?.title.toUpperCase()}</Heading>
-        <Text>{item?.body}</Text>
+    <HStack spacing={"10px"} alignItems={"flex-start"} padding={"10px"} borderRadius={"10px"} marginBottom={"15px"} boxShadow={"rgb(27, 131, 210) 0px 1px 2px 0px, rgb(5, 147, 255) 0px 1px 3px 1px"}>
+      <Box paddingTop={"10px"} color={"blue.400"}>
+        <FaFeather />
+      </Box>
+      <VStack width={"full"} alignItems={"flex-start"} wordBreak={"break-all"}>
+        <Heading size={"lg"} color={"white"} textAlign={"justify"}>
+          {item?.title.toUpperCase()}
+        </Heading>
+        <Text textAlign={"justify"}>{item?.body}</Text>
         <HStack
           spacing={{ base: "5px", md: "10px", lg: "20px" }}
           margin={"20px"}

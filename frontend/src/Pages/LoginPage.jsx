@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState } from "react";
 import {
   Box,
@@ -15,6 +14,7 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  Stack,
   Text,
   VStack,
   useToast,
@@ -47,7 +47,6 @@ const LoginPage = () => {
   const toast = useToast();
   const positions = ["top"];
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prev) => {
@@ -70,7 +69,7 @@ const LoginPage = () => {
   };
 
   if (isAuth) {
-    return <Navigate to={"/notes"} />
+    return <Navigate to={"/notes"} />;
   }
 
   if (isError) {
@@ -89,8 +88,14 @@ const LoginPage = () => {
           "rgba(30, 189, 217, 0.814) 6px 6px 16px, rgba(45, 48, 43, 0.775) 8px 8px 32px"
         }
       >
-        <HStack justifyContent={"space-between"}>
-          <VStack spacing={"20px"} padding={"20px"}>
+        <Stack
+          direction={{ base: "column", md: "row", lg: "row" }}
+          justifyContent={"space-between"}
+        >
+          <VStack
+            spacing={"20px"}
+            padding={{ base: "0px", md: "20px", lg: "20px" }}
+          >
             <Heading size={"lg"}>Login</Heading>
             <Divider color={"blue.500"} />
             {message && (
@@ -107,6 +112,7 @@ const LoginPage = () => {
                   name="email"
                   value={user?.email}
                   placeholder="Email address"
+                  _placeholder={{color:"white"}}
                   onChange={handleChange}
                   isDisabled={isAuth}
                 />
@@ -122,6 +128,7 @@ const LoginPage = () => {
                   pr="4.5rem"
                   type={show ? "text" : "password"}
                   placeholder="Enter password"
+                  _placeholder={{color:"white"}}
                   onChange={handleChange}
                   name="password"
                   value={user?.password}
@@ -172,9 +179,10 @@ const LoginPage = () => {
           </VStack>
           <Image
             src="https://cdn.dribbble.com/users/2844289/screenshots/12049681/media/f1639d121996528e72f09f481a4b6ae2.gif"
-            width={"400px"}
+            width={{ base: "400px", md: "300px", lg: "400px" }}
+            objectFit={"contain"}
           />
-        </HStack>
+        </Stack>
       </Container>
     </Box>
   );

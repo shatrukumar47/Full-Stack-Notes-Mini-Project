@@ -6,46 +6,60 @@ import {
   HStack,
   Image,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./logo.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteItemLS } from "../localStorage/localStorage";
+import { deleteItemLS, getItemLS } from "../localStorage/localStorage";
 import { logoutAction } from "../Redux/authReducer/action";
 
 const Navbar = () => {
+  const [scroll, setScroll] = useState(false);
   const navigate = useNavigate();
+
+  //Navbar Sticky
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      setScroll(window.scrollY > 0);
+    });
+  }, []);
 
   //Redux Store
   const dispatch = useDispatch();
-  const isAuth = useSelector((store) => store.authReducer.isAuth);
-  const username = useSelector((store) => store.authReducer.username);
+  const isAuth = getItemLS("auth")?.isAuth || false;
+  const username = getItemLS("auth")?.username || "";
 
   //Logout Button
   const handleLogout = () => {
+    navigate("/");
     dispatch(logoutAction());
   };
 
   return (
-    <Box bg={"#091216"} padding={"10px"}>
+    <Box
+      bg={"#091216"}
+      padding={{ base: "0px", md: "10px", lg: "10px" }}
+      style={{ position: "sticky", top: 0, zIndex: 999 }}
+      className={scroll ? "active-scroll" : ""}
+    >
       <Container maxW={"8xl"}>
         <HStack justifyContent={"space-between"}>
           <Image
             src={logo}
-            width={"110px"}
-            marginLeft={"20px"}
+            width={{ base: "100px", md: "110px", lg: "110px" }}
+            marginLeft={{ base: "0px", md: "10px", lg: "20px" }}
             onClick={() => navigate("/")}
             cursor={"pointer"}
           />
           {isAuth ? (
             <HStack
-              spacing={{ base: "5px", md: "10px", lg: "20px" }}
-              marginRight={"20px"}
+              spacing={{ base: "8px", md: "10px", lg: "20px" }}
+              marginRight={{ base: "0px", md: "10px", lg: "20px" }}
             >
               <Avatar
                 width={"50px"}
                 name={username}
-                marginRight={"30px"}
+                marginRight={{ base: "0px", md: "10px", lg: "30px" }}
                 src="https://bit.ly/broken-link"
               />
               <Button
@@ -79,8 +93,8 @@ const Navbar = () => {
             </HStack>
           ) : (
             <HStack
-              spacing={{ base: "5px", md: "10px", lg: "20px" }}
-              marginRight={"20px"}
+              spacing={{ base: "10px", md: "10px", lg: "20px" }}
+              marginRight={{ base: "0px", md: "10px", lg: "20px" }}
             >
               <Button
                 color={"white"}

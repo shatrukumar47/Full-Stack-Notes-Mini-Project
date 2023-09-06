@@ -15,6 +15,7 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  Stack,
   Text,
   VStack,
   useSafeLayoutEffect,
@@ -59,7 +60,7 @@ const SignupPage = () => {
     if (user?.username && user?.email && user?.password) {
       dispatch(signupAction(user)).then(() => {
         toast({
-          title: `${regMsg} ✔`,
+          title: `User registered ✔`,
           position: positions[0],
           isClosable: true,
           duration: 1000,
@@ -87,8 +88,14 @@ const SignupPage = () => {
           "rgba(30, 189, 217, 0.814) 6px 6px 16px, rgba(45, 48, 43, 0.775) 8px 8px 32px"
         }
       >
-        <HStack justifyContent={"space-between"}>
-          <VStack spacing={"20px"} padding={"20px"}>
+        <Stack
+          direction={{ base: "column", md: "row", lg: "row" }}
+          justifyContent={"space-between"}
+        >
+          <VStack
+            spacing={"20px"}
+            padding={{ base: "0px", md: "", lg: "20px" }}
+          >
             <Heading size={"lg"} color={"white"}>
               Sign Up
             </Heading>
@@ -104,6 +111,7 @@ const SignupPage = () => {
                   name="username"
                   value={user?.username}
                   placeholder="Username"
+                  _placeholder={{ color: "white" }}
                   onChange={handleChange}
                 />
               </InputGroup>
@@ -119,6 +127,7 @@ const SignupPage = () => {
                   name="email"
                   value={user?.email}
                   placeholder="Email address"
+                  _placeholder={{ color: "white" }}
                   onChange={handleChange}
                 />
               </InputGroup>
@@ -133,6 +142,7 @@ const SignupPage = () => {
                   pr="4.5rem"
                   type={show ? "text" : "password"}
                   placeholder="Enter password"
+                  _placeholder={{ color: "white" }}
                   onChange={handleChange}
                   name="password"
                   value={user?.password}
@@ -182,8 +192,9 @@ const SignupPage = () => {
           <Image
             src="https://cdn.dribbble.com/users/3651832/screenshots/7058203/media/01ac4ec5340e8e7f0b3c53f88a22e38a.gif"
             width={"400px"}
+            objectFit={"contain"}
           />
-        </HStack>
+        </Stack>
       </Container>
     </Box>
   );

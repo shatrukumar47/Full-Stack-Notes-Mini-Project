@@ -10,30 +10,35 @@ import {
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import Error from "../Components/Error";
+import { getItemLS } from "../localStorage/localStorage";
 
 const HomePage = () => {
   const navigate = useNavigate();
 
   //Redux Store
-  const isAuth = useSelector((store) => store.authReducer.isAuth);
+  const isAuth = getItemLS("auth")?.isAuth || false;
 
   return (
     <Box bg={"#091216"}>
       <Container maxW={"7xl"} paddingTop={"100px"}>
         <HStack justifyContent={"center"} margin={"0px auto 30px auto"}>
-          <Heading color={"#e02c1f"} fontSize={"50px"}>
+          <Heading
+            color={"#e02c1f"}
+            fontSize={{ base: "25px", md: "50px", lg: "50px" }}
+          >
             Welcome to Notes :
           </Heading>
-          <Heading color={"skyblue"} fontSize={"40px"}>
+          <Heading
+            color={"skyblue"}
+            fontSize={{ base: "25px", md: "40px", lg: "40px" }}
+          >
             Your Digital Notebook Oasis
           </Heading>
         </HStack>
         <Text
           color={"gray.300"}
           fontWeight={"bold"}
-          fontSize={"25px"}
+          fontSize={{ base: "20px", md: "25px", lg: "25px" }}
           marginBottom={"20px"}
         >
           Unleash the Power of Organization and Creativity

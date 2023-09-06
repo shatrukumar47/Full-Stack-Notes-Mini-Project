@@ -6,7 +6,6 @@ import {
   LOGOUT_SUCCESS,
   SIGNUP_SUCCESS,
 } from "../actionTypes";
-import { setItemLS } from "../../localStorage/localStorage";
 
 //login
 export const loginAction = (user) => (dispatch) => {
@@ -39,6 +38,5 @@ export const signupAction = (user) => (dispatch) => {
 
 //logout
 export const logoutAction = () => (dispatch) => {
-  console.log("Logout");
   dispatch({ type: LOGOUT_SUCCESS });
 };

@@ -27,9 +27,10 @@ const Notes = () => {
 
   //Redux Store
   const dispatch = useDispatch();
-  const data = useSelector((store) => store.notesReducer.data);
+  const data = useSelector((store) => store.notesReducer.data) || [];
   const isLoading = useSelector((store) => store.notesReducer.isLoading);
   const isError = useSelector((store) => store.notesReducer.isError);
+
 
   useEffect(() => {
     dispatch(getNotesAction());
@@ -81,7 +82,7 @@ const Notes = () => {
       >
         Add Note
       </Button>
-      <Container maxW={"4xl"} margin={"40px auto 20px auto"}>
+      <Container maxW={"7xl"} margin={"40px auto 20px auto"}>
         {data?.map((item) => {
           return (
             <Card
