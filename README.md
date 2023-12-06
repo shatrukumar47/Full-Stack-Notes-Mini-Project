@@ -5,7 +5,7 @@ An individual mini project to build a **Full Stack Notes Taking App** with front
 
 # About:
 
-This is a notes taking app where we can save a note, update the existed note and delete it.
+Welcome to our notes-taking application – the perfect tool to streamline your note-taking experience! Our user-friendly platform allows you to effortlessly create, update, and delete notes, ensuring that you have complete control over your information.
 
 ## Deployment Link
 
