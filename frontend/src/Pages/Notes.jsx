@@ -1,6 +1,12 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Box, Button, Container, Image, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Image,
+  Select,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteNoteAction, getNotesAction } from "../Redux/notesReducer/action";
 import Card from "../Components/Card";
@@ -12,6 +18,8 @@ import UpdateModal from "../Components/UpdateModal";
 const Notes = () => {
   //single note to edit
   const [singleNote, setSingleNote] = useState({});
+  const [sortBy, setSortBy] = useState("newest");
+
 
   //AddNoteModal
   const {
@@ -19,11 +27,16 @@ const Notes = () => {
     onOpen: onUpdateOpen,
     onClose: onUpdateClose,
   } = useDisclosure();
+
+  //UpdateNote Modal
   const {
     isOpen: isAddNoteOpen,
     onOpen: onAddNoteOpen,
     onClose: onAddNoteClose,
   } = useDisclosure();
+
+  //Toast
+  const toast = useToast();
 
   //Redux Store
   const dispatch = useDispatch();
@@ -31,21 +44,27 @@ const Notes = () => {
   const isLoading = useSelector((store) => store.notesReducer.isLoading);
   const isError = useSelector((store) => store.notesReducer.isError);
 
-
   useEffect(() => {
-    dispatch(getNotesAction());
-  }, []);
+    dispatch(getNotesAction("", sortBy));
+  }, [sortBy]);
 
   //handleDelete
   const handleDeleteBTN = (id) => {
-    dispatch(deleteNoteAction(id)).then(() => {
+    dispatch(deleteNoteAction(id)).then((res) => {
+      toast({
+        title: "Deleted successfully",
+        status: "error",
+        position: "top",
+        duration: 1000,
+        isClosable: true,
+      });
       dispatch(getNotesAction());
     });
   };
 
   //handleEdit
   const handleEditBTN = (item) => {
-    setSingleNote(item)
+    setSingleNote(item);
     onUpdateOpen();
   };
 
@@ -58,31 +77,43 @@ const Notes = () => {
   }
 
   return (
-    <Box bg={"#091216"} padding={"20px"} color={"white"} minH={"82vh"}>
-      <Button
-        color={"white"}
-        bg={"#149652"}
-        variant={"solid"}
-        borderRadius={"50px"}
-        padding={"10px 20px 10px 10px"}
-        height={"70px"}
+    <Box
+      bg={"linear-gradient(#091216, #872341)"}
+      padding={"20px"}
+      color={"white"}
+      minH={"82vh"}
+    >
+      {/* Add Note Icon  */}
+      <Image
+        src="https://img.icons8.com/?size=1x&id=IA4hgI5aWiHD&format=png"
+        width={{ base: "40px", md: "60px", lg: "60px" }}
+        borderRadius={"50%"}
         _hover={{
-          bg: "#0b8244",
+          bg: "#29ADB2",
         }}
-        boxShadow={
-          "rgb(255, 255, 255) 0px 4px 6px -1px, rgba(255, 255, 255, 0.974) 0px 2px 4px -1px"
-        }
-        leftIcon={
-          <Image
-            src="https://img.icons8.com/?size=1x&id=IA4hgI5aWiHD&format=png"
-            width={"60px"}
-          />
-        }
+        boxShadow={"#29ADB2 0px 0px 10px 5px"}
+        cursor={"pointer"}
+        style={{ position: "fixed", zIndex: 50, right: "30px", bottom: "30px" }}
         onClick={onAddNoteOpen}
+      />
+
+      {/* Sort By  */}
+      <Container  maxW={"7xl"} display={"flex"} justifyContent={"flex-end"}>
+        <Select width={"200px"} name="sort" value={sortBy} onChange={(e)=> setSortBy(e.target.value)}>
+          <option style={{color:"#BE3144"}} value='newest'>Sort by : Newest</option>
+          <option style={{color:"#BE3144"}} value='oldest'>Sort by : Oldest</option>
+        </Select>
+      </Container>
+
+      <Container
+        maxW={"7xl"}
+        display={"grid"}
+        gridTemplateColumns={"repeat(auto-fill, minmax(250px, 1fr))"}
+        gap={8}
+        alignItems={"start"}
+        alignContent={"flex-start"}
+        margin={"25px auto 20px auto"}
       >
-        Add Note
-      </Button>
-      <Container maxW={"7xl"} margin={"40px auto 20px auto"}>
         {data?.map((item) => {
           return (
             <Card
@@ -97,7 +128,11 @@ const Notes = () => {
 
       {/* AddNote Modal */}
       <AddNoteModal isOpen={isAddNoteOpen} onClose={onAddNoteClose} />
-      <UpdateModal isOpen={isUpdateOpen} onClose={onUpdateClose} singleNote={singleNote} />
+      <UpdateModal
+        isOpen={isUpdateOpen}
+        onClose={onUpdateClose}
+        singleNote={singleNote}
+      />
     </Box>
   );
 };

@@ -5,13 +5,21 @@ import {
   Container,
   HStack,
   Image,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuGroup,
+  MenuItem,
+  MenuList,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import logo from "./logo.png";
+import logo from "../Assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteItemLS, getItemLS } from "../localStorage/localStorage";
 import { logoutAction } from "../Redux/authReducer/action";
+import { FaClipboardList, FaUser } from "react-icons/fa";
+import Searchbar from "./Searchbar";
 
 const Navbar = () => {
   const [scroll, setScroll] = useState(false);
@@ -37,8 +45,8 @@ const Navbar = () => {
 
   return (
     <Box
-      bg={"#091216"}
-      padding={{ base: "0px", md: "10px", lg: "10px" }}
+      bg={"linear-gradient(#091216, #091216)"}
+      padding={{ base: "10px 0px 10px 0px", md: "10px", lg: "10px" }}
       style={{ position: "sticky", top: 0, zIndex: 999 }}
       className={scroll ? "active-scroll" : ""}
     >
@@ -46,50 +54,42 @@ const Navbar = () => {
         <HStack justifyContent={"space-between"}>
           <Image
             src={logo}
-            width={{ base: "100px", md: "110px", lg: "110px" }}
+            width={{ base: "40px", md: "80px", lg: "100px" }}
             marginLeft={{ base: "0px", md: "10px", lg: "20px" }}
             onClick={() => navigate("/")}
             cursor={"pointer"}
           />
+
+          {/* Searchbar  */}
+          {isAuth && <Searchbar />}
+
+
+
+
+          {/* Authentication  */}
           {isAuth ? (
             <HStack
               spacing={{ base: "8px", md: "10px", lg: "20px" }}
               marginRight={{ base: "0px", md: "10px", lg: "20px" }}
             >
-              <Avatar
-                width={"50px"}
-                name={username}
-                marginRight={{ base: "0px", md: "10px", lg: "30px" }}
-                src="https://bit.ly/broken-link"
-              />
-              <Button
-                colorScheme="blue"
-                borderRadius={"50px"}
-                _hover={{
-                  bg: "skyblue",
-                }}
-                boxShadow={
-                  "rgb(255, 255, 255) 0px 4px 6px -1px, rgba(255, 255, 255, 0.974) 0px 2px 4px -1px"
-                }
-                onClick={() => navigate("/notes")}
-              >
-                Notes
-              </Button>
-              <Button
-                color={"white"}
-                bg={"#e02c1f"}
-                variant={"solid"}
-                borderRadius={"50px"}
-                _hover={{
-                  bg: "#b5271d",
-                }}
-                boxShadow={
-                  "rgb(255, 255, 255) 0px 4px 6px -1px, rgba(255, 255, 255, 0.974) 0px 2px 4px -1px"
-                }
-                onClick={handleLogout}
-              >
-                Log out
-              </Button>
+              {/* Notes  */}
+              <Box color="#BE3144" fontSize={{base:"20px", md:"25px", lg:"25px"}} cursor={"pointer"} onClick={() => navigate("/notes")}>
+                <FaClipboardList />
+              </Box>
+
+              {/* Profile  */}
+              <Menu>
+                <MenuButton as={Button} fontSize={{base:"15px", md:"17px", lg:"17px"}} padding={{base:"12px", md:"12px", lg:"12px"}} borderRadius={"50%"} bg={"#BE3144"} color={"white"}>
+                 <FaUser />
+                </MenuButton>
+                <MenuList bg={"#BE3144"}>
+                  <MenuGroup title= {`Hello, ${username}`} color={"white"}>
+                    <MenuDivider />   
+                    <MenuItem bg={"#BE3144"} color={"white"} onClick={handleLogout} _hover={{ bg: "gray.200", color: "red" }}> Logout</MenuItem>
+                  </MenuGroup>
+                </MenuList>
+              </Menu>
+
             </HStack>
           ) : (
             <HStack
@@ -98,32 +98,21 @@ const Navbar = () => {
             >
               <Button
                 color={"white"}
-                bg={"#e02c1f"}
-                variant={"solid"}
-                borderRadius={"50px"}
+                border={"1px solid #279EFF"}
+                variant={"outline"}
+                borderRadius={"20px"}
                 _hover={{
-                  bg: "#b5271d",
+                  bg: "#279EFF",
                 }}
+                
                 boxShadow={
-                  "rgb(255, 255, 255) 0px 4px 6px -1px, rgba(255, 255, 255, 0.974) 0px 2px 4px -1px"
+                  "#40F8FF 0px 4px 2px -1px, #40F8FF 0px 2px 2px -1px"
                 }
                 onClick={() => navigate("/login")}
               >
                 Log in
               </Button>
-              <Button
-                colorScheme="blue"
-                borderRadius={"50px"}
-                _hover={{
-                  bg: "skyblue",
-                }}
-                boxShadow={
-                  "rgb(255, 255, 255) 0px 4px 6px -1px, rgba(255, 255, 255, 0.974) 0px 2px 4px -1px"
-                }
-                onClick={() => navigate("/signup")}
-              >
-                Sign up
-              </Button>
+              
             </HStack>
           )}
         </HStack>

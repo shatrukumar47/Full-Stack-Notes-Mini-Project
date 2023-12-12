@@ -11,6 +11,7 @@ import {
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import { getItemLS } from "../localStorage/localStorage";
+import robotImg from "../Assets/images/home robot.png"
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -19,17 +20,17 @@ const HomePage = () => {
   const isAuth = getItemLS("auth")?.isAuth || false;
 
   return (
-    <Box bg={"#091216"}>
+    <Box bg={"linear-gradient(#091216, #872341)"}>
       <Container maxW={"7xl"} paddingTop={"100px"}>
         <HStack justifyContent={"center"} margin={"0px auto 30px auto"}>
           <Heading
-            color={"#e02c1f"}
+            color={"#F05941"}
             fontSize={{ base: "25px", md: "50px", lg: "50px" }}
           >
             Welcome to Notes :
           </Heading>
           <Heading
-            color={"skyblue"}
+            color={"#29ADB2"}
             fontSize={{ base: "25px", md: "40px", lg: "40px" }}
           >
             Your Digital Notebook Oasis
@@ -70,7 +71,7 @@ const HomePage = () => {
           </Button>
         )}
         <Image
-          src="https://cdn.dribbble.com/users/3182337/screenshots/17654482/media/e6b0e5693806b6e2a55870d71e76c79c.gif"
+          src={robotImg}
           margin={"auto"}
         />
       </Container>

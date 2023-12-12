@@ -7,11 +7,13 @@ import {
   SIGNUP_SUCCESS,
 } from "../actionTypes";
 
+const userAPI = "https://notesbackend-5ryo.onrender.com/users" 
+
 //login
 export const loginAction = (user) => (dispatch) => {
   dispatch({ type: LOGIN_REQUEST });
   axios
-    .post("https://notesbackend-5ryo.onrender.com/users/login", user)
+    .post(`${userAPI}/login`, user)
     .then((res) => {
       dispatch({ type: LOGIN_SUCCESS, payload: res?.data });
     })
@@ -25,7 +27,7 @@ export const loginAction = (user) => (dispatch) => {
 export const signupAction = (user) => (dispatch) => {
   dispatch({ type: LOGIN_REQUEST });
   return axios
-    .post("https://notesbackend-5ryo.onrender.com/users/register", user)
+    .post(`${userAPI}/register`, user)
     .then((res) => {
       console.log(res);
       dispatch({type: SIGNUP_SUCCESS, payload: res?.data?.message})
@@ -39,4 +41,10 @@ export const signupAction = (user) => (dispatch) => {
 //logout
 export const logoutAction = () => (dispatch) => {
   dispatch({ type: LOGOUT_SUCCESS });
-};
+}
+
+
+
+
+export default userAPI;
+

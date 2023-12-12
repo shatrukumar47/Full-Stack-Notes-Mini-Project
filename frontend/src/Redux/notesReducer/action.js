@@ -9,19 +9,32 @@ import {
   UPDATENOTES_SUCCESS,
 } from "../actionTypes";
 
+const noteAPI = "https://notesbackend-5ryo.onrender.com" 
+
 //GET Notes
-export const getNotesAction = () => (dispatch) => {
+export const getNotesAction = (title="", sort="newest") => (dispatch) => {
   dispatch({ type: NOTES_REQUEST });
+
   const token = getItemLS("auth")?.token || "";
 
-  axios("https://notesbackend-5ryo.onrender.com/notes", {
+  let params = {};
+  if(title){
+    params["title"] = title;
+  }
+
+  if(sort){
+    params["sort"] = sort;
+  }
+  
+  const queryParams = new URLSearchParams(params).toString();
+
+  axios(`${noteAPI}/notes?${queryParams}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
     .then((res) => {
-      console.log(res);
       if (!res.data) {
         dispatch({ type: NOTES_SUCCESS, payload: [] });
       } else {
@@ -36,10 +49,13 @@ export const getNotesAction = () => (dispatch) => {
 
 //POST Notes
 export const addNotesAction = (note) => (dispatch) => {
+
   dispatch({ type: NOTES_REQUEST });
+
   const token = getItemLS("auth")?.token || "";
+
   return axios
-    .post("https://notesbackend-5ryo.onrender.com/notes/create", note, {
+    .post(`${noteAPI}/notes/create`, note, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -60,7 +76,7 @@ export const upateNotesAction = (note) => (dispatch) => {
   const token = getItemLS("auth")?.token || "";
   return axios
     .patch(
-      `https://notesbackend-5ryo.onrender.com/notes/update/${note?._id}`,
+      `${noteAPI}/notes/update/${note?._id}`,
       note,
       {
         headers: {
@@ -83,7 +99,7 @@ export const upateNotesAction = (note) => (dispatch) => {
 export const deleteNoteAction = (id) => (dispatch) => {
   dispatch({ type: NOTES_REQUEST });
   const token = getItemLS("auth")?.token || "";
-  return axios(`https://notesbackend-5ryo.onrender.com/notes/delete/${id}`, {
+  return axios(`${noteAPI}/notes/delete/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -97,3 +113,6 @@ export const deleteNoteAction = (id) => (dispatch) => {
       dispatch({ type: NOTES_FAILURE });
     });
 };
+
+
+export default noteAPI;

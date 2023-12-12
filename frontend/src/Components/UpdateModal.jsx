@@ -11,13 +11,12 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text,
   Textarea,
   useToast,
 } from "@chakra-ui/react";
 import Error from "./Error";
 import { useDispatch, useSelector } from "react-redux";
-import { addNotesAction, getNotesAction, upateNotesAction } from "../Redux/notesReducer/action";
+import {  getNotesAction, upateNotesAction } from "../Redux/notesReducer/action";
 
 
 const initialState = {
@@ -64,7 +63,7 @@ const UpdateModal = ({ isOpen, onClose, singleNote }) => {
     if (note?.title && note?.body) {
         dispatch(upateNotesAction(note)).then(()=>{
           toast({
-            title: `Note updated successfully ✅`,
+            title: `Updated successfully`,
             position: positions[0],
             isClosable: true,
             duration: 1000,
@@ -73,14 +72,6 @@ const UpdateModal = ({ isOpen, onClose, singleNote }) => {
           dispatch(getNotesAction());
           onClose();
         })
-      } else {
-        toast({
-          title: `Fill all the inputs !!`,
-          position: positions[0],
-          isClosable: true,
-          duration: 1000,
-          status: "warning",
-        });
       }
   };
 
@@ -98,11 +89,11 @@ const UpdateModal = ({ isOpen, onClose, singleNote }) => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader bg={"#cc822c"} color={"white"}>
+          <ModalHeader bg={"#BE3144"} color={"white"}>
             Make the changes
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody pb={6} bg={"#22092C"} color={"white"}>
             <FormControl>
               <FormLabel color={"red"}>Title</FormLabel>
               <Input
@@ -127,13 +118,13 @@ const UpdateModal = ({ isOpen, onClose, singleNote }) => {
             </FormControl>
           </ModalBody>
 
-          <ModalFooter>
+          <ModalFooter bg={"#22092C"}>
             <Button
-              bg="green"
+              bg="#29ADB2"
               color={"white"}
               borderRadius={"50px"}
               _hover={{
-                bg: "black",
+                bg: "#0766AD",
               }}
               margin={"5px"}
               onClick={handleUpdate}

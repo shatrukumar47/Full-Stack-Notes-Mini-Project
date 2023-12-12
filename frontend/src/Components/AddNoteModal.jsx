@@ -85,11 +85,11 @@ const AddNoteModal = ({ isOpen, onClose }) => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader bg={"#3787D0"} color={"white"}>
+          <ModalHeader bg={"#BE3144"} color={"white"}>
             Add Note
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody pb={6} bg={"#091216"} color={"white"}>
             <FormControl>
               <FormLabel color={"red"}>Title</FormLabel>
               <Input type="text" ref={initialRef} placeholder="Title ..." name="title" value={note?.title} onChange={handleChange} />
@@ -105,13 +105,13 @@ const AddNoteModal = ({ isOpen, onClose }) => {
             </FormControl>
           </ModalBody>
 
-          <ModalFooter>
+          <ModalFooter  bg={"#091216"}>
             <Button
-              bg="darkblue"
+              bg="#BE3144"
               color={"white"}
               borderRadius={"50px"}
               _hover={{
-                bg: "black",
+                bg: "#8a2432",
               }}
               margin={"5px"}
               onClick={handleAdd}

@@ -1,30 +1,27 @@
 import React from "react";
 import { Box, Button, Container, Heading, Image } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
+import errorpic from "../Assets/images/errorpic.png"
 
 const Error = () => {
   const navigate = useNavigate();
   return (
-    <Box bg={"#261AAE"}>
-      <Container maxW={"6xl"} height={"600px"}>
+    <Box bg={"#872341"} paddingTop={"40px"}>
+      <Container maxW={"6xl"} height={{base:"80vh", md:"90vh", lg:"90vh"}}>
         <Image
           margin={"auto"}
-          src="https://img.freepik.com/free-vector/retro-error-text-with-layers_53876-99637.jpg?size=626&ext=jpg&ga=GA1.2.1257944628.1683352118&semt=country_rows_v2"
+          src={errorpic}
         />
-        <Heading color={"white"}>404 : Page Not Found !!</Heading>
+        <Heading color={"#F05941"}>404 : Something Went Wrong !!</Heading>
         <Button
-          colorScheme="blue"
+          colorScheme="orange"
           borderRadius={"50px"}
-          _hover={{
-            bg: "skyblue",
-          }}
           marginTop={"30px"}
-          boxShadow={
-            "rgb(255, 255, 255) 0px 4px 6px -1px, rgba(255, 255, 255, 0.974) 0px 2px 4px -1px"
-          }
           onClick={() => navigate("/")}
+          leftIcon={<FaHome />}
         >
-          Go to Home
+          Back to Home
         </Button>
       </Container>
     </Box>
